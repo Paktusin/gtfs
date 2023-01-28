@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 
 export async function getTrips(routes, calendars) {
   const trips = [];
-  for (let route of routes.slice(0, 1)) {
+  for (let route of routes) {
     const text = await fetch(route.route_url + "&t=2").then((res) =>
       res.text()
     );
