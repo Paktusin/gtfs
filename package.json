@@ -3,5 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^3.3.0",
+    "parse5": "^7.1.2"
+  }
 }
