@@ -6,7 +6,13 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "node-fetch": "^3.3.0",
-    "parse5": "^7.1.2"
+    "dayjs": "^1.11.7",
+    "file-zip": "^1.0.1",
+    "gh-pages": "^5.0.0",
+    "node-fetch": "^3.3.0"
+  },
+  "scripts": {
+    "build": "node index.js",
+    "deploy": "gh-pages -d out"
   }
 }
