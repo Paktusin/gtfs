@@ -20,7 +20,7 @@ export function getCalendars() {
   const sutSunCal = new Calendar();
   sutSunCal.sunday = 1;
   sutSunCal.saturday = 1;
-  sutSunCal.service_id = "Saturday, Sunday";
+  sutSunCal.service_id = "Saturday Sunday";
 
   return [mfCal, satCal, sunCal, sutSunCal];
 }

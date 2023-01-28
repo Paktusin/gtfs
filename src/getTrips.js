@@ -12,7 +12,7 @@ export async function getTrips(routes, calendars) {
     $(
       "#ctl00_ContentPlaceHolder1_RouteScheduleTimes_TopGroupsList1_ctl00_GroupsList1_ctl00_ScheduleTimesControl1_DataList1 tr table tr:first-child td:first-child b"
     ).each((index, el) => {
-      const calName = $(el).text().trim();
+      const calName = $(el).text().trim().replaceAll(",", "");
       const calendar = calendars.find((c) => c.service_id == calName);
       if (calendar) {
         const trip = new Trip();

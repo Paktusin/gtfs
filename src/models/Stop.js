@@ -3,5 +3,4 @@ export class Stop {
   stop_name;
   stop_lat;
   stop_lon;
-  parent_station;
 }
