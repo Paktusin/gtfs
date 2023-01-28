@@ -17,6 +17,7 @@ export async function saveRoutes() {
     const [shortName, longName] = $(link).text().trim().split(",");
     route.route_short_name = shortName.trim();
     route.route_long_name = longName.trim();
+    route.route_url = url;
     routes.push(route);
   });
   return saveData("routes", routes);
