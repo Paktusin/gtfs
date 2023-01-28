@@ -1,9 +1,8 @@
-import { saveData } from "./saveData.js";
 import { Route } from "./models/Route.js";
 import { load } from "cheerio";
 import fetch from "node-fetch";
 
-export async function saveRoutes() {
+export async function getRoutes() {
   const routes = [];
   const text = await fetch(
     "https://www.cyprusbybus.com/routes.aspx?sid=1"
@@ -20,5 +19,5 @@ export async function saveRoutes() {
     route.route_url = url;
     routes.push(route);
   });
-  return saveData("routes", routes);
+  return routes;
 }

@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 
 export function saveData(name, rows) {
+  if (!rows.length) {
+    return;
+  }
   const fields = Object.keys(rows[0]);
   let data = fields.join(",") + "\n";
   rows.forEach((row) => {
