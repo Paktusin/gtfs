@@ -10,6 +10,5 @@ export function saveData(name, rows) {
   rows.forEach((row) => {
     data += fields.map((field) => row[field]).join(",") + "\n";
   });
-  console.log(data);
   fs.writeFileSync(`./out/${name}.txt`, data, "utf8");
 }
