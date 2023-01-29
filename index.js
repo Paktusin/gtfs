@@ -3,6 +3,7 @@ import { getRoutes } from "./src/getRoutes.js";
 import { getAgency } from "./src/getAgency.js";
 import { getInfo } from "./src/getInfo.js";
 import { saveData } from "./src/saveData.js";
+import fs from "fs";
 import zipper from "zip-local";
 
 (async () => {
@@ -27,6 +28,7 @@ import zipper from "zip-local";
 })();
 
 function zipData() {
+  fs.rmSync('./out/gtfs.zip');
   zipper.zip("./out", (error, zipped) => {
     if (!error) {
       zipped.compress();
