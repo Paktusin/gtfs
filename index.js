@@ -3,6 +3,7 @@ import { getRoutes } from "./src/getRoutes.js";
 import { getAgency } from "./src/getAgency.js";
 import { getInfo } from "./src/getInfo.js";
 import { saveData } from "./src/saveData.js";
+import zipper from "zip-local";
 
 (async () => {
   const agency = getAgency();
@@ -22,4 +23,19 @@ import { saveData } from "./src/saveData.js";
       feed_lang: "en",
     },
   ]);
+  zipData();
 })();
+
+function zipData() {
+  zipper.zip("./out", (error, zipped) => {
+    if (!error) {
+      zipped.compress();
+      var buff = zipped.memory();
+      zipped.save("./out/gtfs.zip", (error) => {
+        if (!error) {
+          console.log("saved successfully !");
+        }
+      });
+    }
+  });
+}
