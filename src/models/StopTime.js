@@ -1,7 +1,8 @@
 export class StopTime{
     trip_id;
-    arrival_time;
-    departure_time;
     stop_id;
     stop_sequence;
+    departure_time;
+    arrival_time;
+    timepoint=0;
 }

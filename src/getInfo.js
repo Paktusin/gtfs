@@ -20,45 +20,46 @@ export async function getInfo(routes) {
         let calendar = calendars.get(service_id);
         if (!calendar) {
           calendar = new Calendar(service_id, schedule.days);
-          calendars.set(service_id);
-        }
-        const trip = new Trip(route.route_id, calendar.service_id);
-        trips.push(trip);
-        const tripStops = [];
-        for (let conn of res.data.routeConnections) {
-          let stop = allStops.get(conn.id);
-          if (!stop) {
-            stop = new Stop();
-            stop.stop_id = conn.id;
-            stop.stop_name = conn.title;
-            stop.stop_lon = conn.longitude;
-            stop.stop_lat = conn.latitude;
-            allStops.set(stop.stop_id, stop);
-          }
-          tripStops.push(stop);
+          calendars.set(service_id, calendar);
         }
 
-        for (let time of schedule.times) {
-          const timePerStop = Math.ceil(
-            dayjs(`1990-01-01 ${schedule.duration}`).diff(
-              "1990-01-01 00:00:00",
-              "seconds"
-            ) /
-              (tripStops.length - 1)
-          );
+        for (
+          let tripIndex = 0;
+          tripIndex < schedule.times.length;
+          tripIndex++
+        ) {
+          const time = schedule.times[tripIndex];
+          const arrTime = dayjs(`1990-01-01 ${time}:00`);
+          const trip = new Trip(route.route_id, calendar.service_id, tripIndex);
+          trips.push(trip);
+          const tripStops = [];
+          for (let conn of res.data.routeConnections) {
+            let stop = allStops.get(conn.id);
+            if (!stop) {
+              stop = new Stop();
+              stop.stop_id = conn.id;
+              stop.stop_name = conn.title;
+              stop.stop_lon = conn.longitude;
+              stop.stop_lat = conn.latitude;
+              allStops.set(stop.stop_id, stop);
+            }
+            tripStops.push(stop);
+          }
+
           for (let i = 0; i < tripStops.length; i++) {
             const stopTime = new StopTime();
             stopTime.trip_id = trip.trip_id;
-            const arrTime = dayjs(`1990-01-01 ${time}:00`).add(
-              timePerStop * i,
-              "seconds"
-            );
-            stopTime.arrival_time = arrTime.format("HH:mm:ss");
-            stopTime.departure_time = arrTime
-              .add(2, "minutes")
-              .format("HH:mm:ss");
+            if (i === 0) {
+              stopTime.arrival_time = stopTime.departure_time = arrTime.format("HH:mm:ss");
+              stopTime.timepoint = 1;
+            }
+            if (i === tripStops.length - 1) {
+              const durationMinutes = dayjs(`1900-01-01 ${schedule.duration}`).diff(dayjs('1900-01-01 00:00:00'),'minutes');
+              stopTime.arrival_time = stopTime.departure_time = arrTime.add(durationMinutes,'minutes').format("HH:mm:ss");
+              stopTime.timepoint = 1;
+            }
             stopTime.stop_id = tripStops[i].stop_id;
-            stopTime.stop_sequence = i * 5;
+            stopTime.stop_sequence = (i + 1) * 5;
             stop_times.push(stopTime);
           }
         }
